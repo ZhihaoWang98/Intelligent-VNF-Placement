@@ -1,0 +1,21 @@
+\begin{thebibliography}{}
+
+\bibitem[IBM 2020]{ibm:20}
+IBM (2020).
+\newblock pthread-barrier-destroy or pthread-barrier-init subroutine.
+\newblock
+  {https://www.ibm.com/support/knowledgecenter/ssw-aix-72/p-bostechref/pthread-barrier-destroy.html}.
+\newblock Acessado em 15 out. 2020.
+
+\bibitem[Robbins 2000]{robbins:00}
+Robbins, D. (2000).
+\newblock Posix threads explained.
+\newblock {https://www.ibm.com/developerworks/library/l-posix1/index.html}.
+\newblock Acessado em 20 out. 2020.
+
+\bibitem[Tanenbaum and Bos 2016]{tanenbaum:16}
+Tanenbaum, A.~S. and Bos, H. (2016).
+\newblock {\em Sistemas Operacionais Modernos}.
+\newblock Pearson Education do Brasil, 4ª edition.
+
+\end{thebibliography}
