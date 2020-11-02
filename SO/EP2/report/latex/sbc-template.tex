@@ -11,7 +11,7 @@
 
 \author{Guilherme Werneck de Oliveira\inst{1}}
 
-\address{Instituto de Matemática e Estatística -- Universidade de São Paulo (USP)\\
+\address{Departamento de Ciência da Computação -- Universidade de São Paulo (USP)\\
   Rua do Matão, 1010 - CEP 05508-090 - São Paulo - SP}
 
 \begin{document}
@@ -31,11 +31,11 @@
 
 O gerenciamento de memória é um dos mecanismos necessários para todo e qualquer sistema operacional. Ele permite que a memória principal (RAM) seja alocada e desalocada de forma eficiente durante o inicio, a execução e o termino de programas.
 
-Em sistemas operacionais multiprogramados, onde vários programas concorrem simultaneamente pelo mesmo \textit{hardware}, é possível encontrar um recurso chamado de \textbf{memória virtual}. Esse recurso permite que cada programa tenha seu próprio espaço de endereçamento divididos em blocos, conhecidos como \textbf{páginas}. \cite{tanenbaum:16}.
+Em sistemas operacionais multiprogramados, onde vários programas concorrem simultaneamente pelo mesmo \textit{hardware}, é possível encontrar um recurso chamado de \textbf{memória virtual}. Esse recurso permite que cada programa tenha seu próprio espaço de endereçamento dividido em blocos, conhecidos como \textbf{páginas}. \cite{tanenbaum:16}.
 
 Na criação de um novo processo, um determinado espaço de endereçamento é reservado para ele. Quando esse processo utiliza algum mecanismo de processamento paralelo de tarefas, por exemplo \textit{threading}, esse espaço de endereçamento é compartilhado entre todos os recursos do mesmo processo. Uma das vantagens dessa estratégia é a redução da complexidade na implementação e na manipulação de acessos a recursos compartilhados, não necessitando realizar comunicações entre processos diferentes. No entanto, é necessária a criação e a utilização de abordagens de acesso exclusivo a um recurso compartilhado como, por exemplo, uma estrutura alocada na memória principal.
 
-Este trabalho mostra o desenvolvimento de um simulador de corridas e os resultados de testes aplicados, com o principal objetivo de utilizar o compartilhamento de memória principal (a pista) por meio de \textit{mutithreads} (os ciclistas).
+Este trabalho mostra o desenvolvimento de um simulador de corrida e os resultados de testes aplicados, com o principal objetivo de utilizar o compartilhamento de memória principal (a pista) por meio de \textit{mutithreads} (os ciclistas).
 
 \section{Descrição do Problema} \label{sec:firstpage}
 
@@ -90,7 +90,7 @@ O simulador cria um vetor de ciclistas onde cada um é representado por uma estr
 
 Como a corrida por eliminação considera a eliminação do último ciclista ao cruzar a linha de chegada a cada duas voltas, o simulador implementa uma barreira \cite{ibm:20}, Figura~\ref{fig:barrier}, com o intuito de sincronizar todas as \textit{threads}, ou ciclistas, ao final de duas voltas. Após a sincronização dos ciclistas, o processo de eliminação é executado.
 
-Todo ciclista, quando é criado, tem sua variável local de tempo iniciada pela função \textit{clock()}. Quando corre uma determinada volta, seu estado é alterado para "correndo" e sua velocidade é determinada de acordo com os requisitos solicitados na descrição do EP. Após  a definição da velocidade do ciclista, a função \textit{usleep()} é executada, considerando sua velocidade, antes do incremento da variável que controla os metros andados pelo ciclista. No final da volta, sua variável de tempo em determinada volta é computada para ser utilizada no processo de eliminação.
+Todo ciclista, quando é criado, tem sua variável local de tempo iniciada pela função \textit{clock()}. Quando corre uma determinada volta, seu estado é alterado para ``correndo" e sua velocidade é determinada de acordo com os requisitos solicitados na descrição do EP. Após  a definição da velocidade do ciclista, a função \textit{usleep()} é executada, considerando sua velocidade, antes do incremento da variável que controla os metros andados pelo ciclista. No final da volta, sua variável de tempo em determinada volta é computada para ser utilizada no processo de eliminação.
 
 \begin{figure}[H]
 	\centering
@@ -99,7 +99,7 @@ Todo ciclista, quando é criado, tem sua variável local de tempo iniciada pela 
 	\label{fig:barrier}
 \end{figure}
 
-O processo de eliminação realiza uma eleição de qual ciclista alcançou o maior tempo no final de duas voltas. Após essa eleição, o ciclista selecionado atualiza seu estado para "eliminado", decrementa o contador da barreira, atualiza sua posição final, destrói a barreira e cria uma nova com o novo número de cilistas para as voltas seguintes e finaliza sua \textit{thread}. Essa abordagem de implementação garante que todas as \textit{threads} sejam finalizadas no mesmo momento em que o ciclista foi eliminado ou quebrado, fazendo com que o recurso computacional de processamento alocado para o processo seja liberado.
+O processo de eliminação realiza uma eleição de qual ciclista alcançou o maior tempo no final de duas voltas. Após essa eleição, o ciclista selecionado atualiza seu estado para ``eliminado", decrementa o contador da barreira, atualiza sua posição final, destrói a barreira e cria uma nova com o novo número de cilistas para as voltas seguintes e finaliza sua \textit{thread}. Essa abordagem de implementação garante que todas as \textit{threads} sejam finalizadas no mesmo momento em que o ciclista foi eliminado ou quebrado, fazendo com que o recurso computacional de processamento alocado para o processo seja liberado.
 
 Assim como a eliminação do ciclista, o simulador considera que o ciclista pode ter quebrado na última volta em que correu. Nesse caso, a \textit{thread} do ciclista é finalizada e barreira é atualizada.
 
@@ -108,9 +108,9 @@ A cada volta da corrida, as posições de cada ciclista são apresentadas juntam
 
 \section{Resultados Obtidos}
 
-Os resultados apresentados foram obtidos a partir da execução do simulador de corrida em uma máquina física com processador Intel® Core i5 com 4 CPUs, 6 GB de memória RAM e sistema operacional Ubuntu 20.04.1 LTS
+Os resultados apresentados foram obtidos a partir da execução do simulador de corrida em uma máquina física com processador Intel® Core i5 com 4 CPUs, 6 GB de memória RAM e sistema operacional Ubuntu 20.04.1 LTS.
 
-Os valores apresentados nos gráficos a seguir foram obtidos a partir de 30 execuções do simulador de corrida para cada uma das instâncias e foram aferidos com um intervalo de 95\% de confiança. As instâncias utilizadas foram:
+Os valores apresentados nos gráficos a seguir foram obtidos a partir de 30 execuções do simulador de corrida para cada uma das instâncias e foram aferidos com um intervalo de 95\% de confiança. A quantidade de ciclistas e o tamanho da pista foram definidos com base em parâmetros próximos ao de uma corrida real. As instâncias utilizadas foram:
 
 \begin{itemize}
 	\item Poucos ciclistas (13): pista com 250, 700 e 1200 metros;
@@ -124,14 +124,14 @@ A aferição do tempo de execução do simulador foi realizada a partir da execu
 
 O gráfico ilustrado na Figura~\ref{fig:time} apresenta o tempo de execução do simulador para as instâncias com poucos, médios e muitos ciclistas em diferentes tamanhos de pista. O primeiro fato observado foi o aumento do tempo de execução de forma proporcional ao aumento do número de ciclistas para todas as configurações de pista. Esse aumento representou cerca de 87\% para poucos, 90\% para médios e 87\% para muitos ciclistas nas pistas de 250, 700 e 1200 metros respectivamente. Isso se deve ao fato da criação e execução de um número maior de \textit{threads} e, consequentemente, o aumento do número de voltas necessárias para a definição de um vencedor.
 
-Outro fato importante observado em todas as instâncias, foi a redução significativa do tempo de execução do simulador, em média 17\%, nos casos em que houveram de 4 a 18 ciclistas quebrados na corrida.
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{time.png}
 	\caption{Tempo de execução do simulador de corrida.}
 	\label{fig:time}
 \end{figure}
+
+Outro fato importante observado em todas as instâncias, foi a redução significativa do tempo de execução do simulador, em média 17\%, nos casos em que houveram de 4 a 18 ciclistas quebrados na corrida.
 
 \subsection{Consumo de Memória}
 
